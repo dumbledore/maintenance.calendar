@@ -5,26 +5,9 @@ SvetlinAnkov.Calendar = function() {
 
   var context = { };
 
-  function saveAs(filename, obj) {
-    var doc = context.contentWindow.document;
-    var link = doc.createElement('a');
-    var uri = 'data:Application/octet-stream;base64,' + btoa(JSON.stringify(obj));
-
-    if (typeof link.download === 'string') {
-      link.href = uri;
-      link.download = filename;
-
-      //Firefox requires the link to be in the body
-      doc.body.appendChild(link);
-
-      //simulate click
-      link.click();
-
-      //remove the link when done
-      doc.body.removeChild(link);
-    } else {
-      window.open(uri);
-    }
+  function saveAs(obj) {
+    var uri = 'data:Application/octet-stream;base64,' + btoa(obj);
+    context.contentWindow.open(uri);
   }
 
   function readSingleFile(e, onload) {
@@ -62,7 +45,7 @@ SvetlinAnkov.Calendar = function() {
     context.contentWindow.alert("Your ID is: " + obj.id);
 
     // Save settings
-    saveAs("backup.json", {id: obj.id + 1});
+    saveAs(JSON.stringify({id: obj.id + 1}));
   }
 
   function displayFile(contents) {
