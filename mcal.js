@@ -5,8 +5,8 @@ SvetlinAnkov.Calendar = function() {
 
   var context = { };
 
-  function saveAs(obj) {
-    var uri = 'data:text/plain;charset=utf-8;base64,' + btoa(obj);
+  function saveAs(data) {
+    var uri = 'data:text/plain;charset=utf-8,' + data;
     context.contentWindow.open(uri);
   }
 
