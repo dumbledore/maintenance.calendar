@@ -25,6 +25,11 @@ SvetlinAnkov.Calendar = function() {
     readSingleFile(e, displayFile);
   }
 
+  function saveFile() {
+    document.location = 'data:Application/octet-stream,' +
+      encodeURIComponent("some content");
+  }
+
   function test() {
     var storage = context.contentWindow.localStorage;
     var id, obj;
@@ -45,7 +50,7 @@ SvetlinAnkov.Calendar = function() {
     context.contentWindow.alert("Your ID is: " + obj.id);
 
     // Save settings
-    saveAs(JSON.stringify({id: obj.id + 1}));
+    // saveAs(JSON.stringify({id: obj.id + 1}));
   }
 
   function displayFile(contents) {
@@ -63,4 +68,5 @@ SvetlinAnkov.Calendar = function() {
   // Called when an iframe has loaded
   this.contentLoaded = contentLoaded;
   this.loadFile = loadFile;
+  this.saveFile = saveFile;
 };
