@@ -5,11 +5,6 @@ SvetlinAnkov.Calendar = function() {
 
   var context = { };
 
-  function saveAs(data) {
-    var uri = 'data:text/html;charset=utf-8,' + encodeURIComponent(data)
-    context.contentWindow.open(uri);
-  }
-
   function readSingleFile(e, onload) {
     var file = e.target.files[0];
 
@@ -26,11 +21,12 @@ SvetlinAnkov.Calendar = function() {
   }
 
   function saveFile() {
-    document.location = 'data:Application/octet-stream,' +
-      encodeURIComponent("some content");
+    context.contentWindow.document.location =
+      'data:application/octet-stream,' +
+        encodeURIComponent(JSON.stringify(context.obj));
   }
 
-  function test() {
+  function getObj() {
     var storage = context.contentWindow.localStorage;
     var id, obj;
 
@@ -49,8 +45,7 @@ SvetlinAnkov.Calendar = function() {
     obj = JSON.parse(storage.getItem("myvar"));
     context.contentWindow.alert("Your ID is: " + obj.id);
 
-    // Save settings
-    // saveAs(JSON.stringify({id: obj.id + 1}));
+    return obj;
   }
 
   function displayFile(contents) {
@@ -60,12 +55,10 @@ SvetlinAnkov.Calendar = function() {
 
   function contentLoaded(contentWindow) {
     context.contentWindow = contentWindow;
-    test();
+    context.obj = getObj();
   }
 
   // Public API
-
-  // Called when an iframe has loaded
   this.contentLoaded = contentLoaded;
   this.loadFile = loadFile;
   this.saveFile = saveFile;
